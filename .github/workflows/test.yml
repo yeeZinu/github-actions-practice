@@ -1,0 +1,33 @@
+# workflow의 이름
+name: test
+
+# Event
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+
+# job 실행될 워크 플로우
+# job은 step으로 구성됨
+# step은 action으로 구성됨
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+
+        # run 이라는 키워드
+        # run 으로 적은 대로 코드 실행시켜줘 라는 뜻
+      - run: npm install -g bats
+      - run: bats -v
+        # echo: 이것이 반복 실행될 때 마다 적은 내용 실행
+      - run: echo "힘내! 오늘도 힘내!"
+      - run: echo "나는 ${{github.actor}}야"
+      - run: echo "${{github.event_name}} event에 의해서 자동으로 실행됐어"
+
+#이슈발생
